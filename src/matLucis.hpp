@@ -175,6 +175,11 @@ class linearRegressionGD {
             
             for (size_t epoch = 0; epoch < this->max_iter; ++epoch) {
                 Matrix der_BETA = ( X_train_transpose * ( (X_train_augmented * BETA) - y_train ) ) / dim.first;
+                double l2_norm = (der_BETA ^ 2).sum();
+
+                if ( l2_norm < EPS ) {
+                    break;
+                }
 
                 BETA = BETA - this->learning_rate * der_BETA;
             }
