@@ -1,9 +1,7 @@
-#include "matLucis.hpp"
+#include "../src/matLucis.hpp"
 
 int main() {
     Matrix data = readCsv("../diabetes.csv", true);
-
-    std::cout << data << std::endl;
 
     Matrix X = data.extractMatrix(
         {0, data.shape().first}, {0, data.shape().second - 1}
@@ -34,6 +32,7 @@ int main() {
     // std::cout << X_train << std::endl;
 
     linearRegression lr;
+    std::cout << X_train.shape() << std::endl;
     lr.train(X_train, y_train);
 
     std::cout << lr.coef_ << std::endl;

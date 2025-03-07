@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <tuple>
 
 #include "../core/matOps.hpp"
 
@@ -167,12 +168,13 @@ class linearRegressionGD {
 
         void train(const Matrix& X_train, const Matrix& y_train) {
             Matrix X_train_augmented = X_train.insertCol(1, 0);
+            Matrix X_train_transpose = X_train_augmented.transpose();
 
             std::pair<size_t, size_t> dim = X_train_augmented.shape();
             Matrix BETA = Matrix::constValMatrix(dim.second, 1, 1.0);
             
             for (size_t epoch = 0; epoch < this->max_iter; ++epoch) {
-                Matrix der_BETA = ( X_train_augmented.transpose() * ( (X_train_augmented * BETA) - y_train ) ) / dim.first;
+                Matrix der_BETA = ( X_train_transpose * ( (X_train_augmented * BETA) - y_train ) ) / dim.first;
 
                 BETA = BETA - this->learning_rate * der_BETA;
             }
